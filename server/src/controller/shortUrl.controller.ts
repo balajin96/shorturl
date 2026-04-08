@@ -7,6 +7,13 @@ export const createShortUrl = async (req: Request, res: Response) => {
     try {
         const { fullUrl } = req.body;
         const validated = urlSchemaValidator.parse({ fullUrl });
+        const existingUrl = await Url.findOne({ fullUrl: validated.fullUrl });
+        if (existingUrl) {
+            return res.status(200).json({
+                message: "Short URL already exists for that destination",
+                data: existingUrl
+            });
+        }
         const newUrl = new Url(validated);
         const savedUrl = await newUrl.save();
         return res.status(201).json({ message: "Short URL created successfully", data: savedUrl });
