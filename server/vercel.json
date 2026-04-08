@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/**/*.ts": {
+    "src/server.ts": {
       "runtime": "@vercel/node@latest"
     }
   }
